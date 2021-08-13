@@ -25,6 +25,11 @@ nav{
 	display: flex;
 	align-items: center;
 }
+
+.nav-left img {
+	cursor: pointer;
+}
+
 .nav-left ul li{
 	list-style: none;
 	display: inline-block;
@@ -148,4 +153,12 @@ nav{
 .add-post-links a img{
 	width: 20px;
 	margin-right: 10px;
+}
+
+small {
+	font-size: larger;
+}
+
+div[id="creator-header"] {
+	text-align: center;
 }

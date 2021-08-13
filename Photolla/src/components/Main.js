@@ -44,6 +44,38 @@ class Main extends Component {
           </div>
         </div>
       );
+    } else if (this.props.profileAddress != '') {
+      console.log(this.props.profileAddress)
+      return (
+        <div className="container-fluid mt-5">
+          <div className="row">
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '500px' }}>
+              <div className="content mr-auto ml-auto">
+                <p>&nbsp;</p>
+                  <h2>{this.props.profileName}</h2>
+                <p>&nbsp;</p>
+                  { this.props.images[this.props.profileAddress].map((image, key) => {
+                      return(
+                        <div className="card mb-4" key={key}>
+                          <div className="card-header" id="creator-header">
+                            <p>{image.description}</p>
+                          </div>
+                          <ul id="imageList" className="list-group list-group-flush">
+                            <li className="list-group-item">
+                              <p className="text-center">
+                                <img src={`https://ipfs.infura.io/ipfs/${image.hash}`} style={{ maxWidth: '420px'}}/>
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+            </main>
+          </div>
+        </div>
+      );
     } else {
       return (
         <div className="container-fluid mt-5">
@@ -51,7 +83,7 @@ class Main extends Component {
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '500px' }}>
               <div className="content mr-auto ml-auto">
                 <p>&nbsp;</p>
-                <h2>Share Image</h2>
+                <h2>Post Photo</h2>
                 <form onSubmit={(event) => {
                   event.preventDefault()
                   const description = this.imageDescription.value
@@ -74,8 +106,8 @@ class Main extends Component {
                 { this.props.creators.map((creator, key) => {
                   return(
                     <div className="card mb-4" key={key} >
-                      <div className="card-header">
-                        <small className="text-muted">{creator.creatorName}</small>
+                      <div className="card-header" id="creator-header">
+                        <a className="text-muted" href="#" onClick={() => this.props.loadprofile(creator.creatorAddress, creator.creatorName)}>{creator.creatorName}</a>
                       </div>
                       <ul id="imageList" className="list-group list-group-flush">
                         <li className="list-group-item">
@@ -83,7 +115,7 @@ class Main extends Component {
                             <img src=
                               {this.props.images[creator.creatorAddress].length === 0
                               ? `data:image/png;base64,${creator.defaultProfile}`
-                              : `https://ipfs.infura.io/ipfs/${this.props.images[creator.creatorAddress][this.props.images[creator.creatorAddress].length - 1][1]}`
+                              : `https://ipfs.infura.io/ipfs/${this.props.images[creator.creatorAddress][this.props.images[creator.creatorAddress].length - 1]["hash"]}`
                               }
                               style={{ maxWidth: '420px'}}
                             />

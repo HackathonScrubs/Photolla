@@ -37,7 +37,7 @@ class Navbar extends Component {
       </nav>*/
       <nav>
         <div className="nav-left">
-          <img src ={logo} className="logo"/>
+          <img src ={logo} className="logo" onClick={() => this.props.loadprofile("", "")}/>
         </div>
         <div className="nav-right"></div>
           <div className="search-box">

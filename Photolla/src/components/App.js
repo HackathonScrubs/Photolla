@@ -96,6 +96,17 @@ async loadBlockchainData() {
     this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account })
   }
 
+  loadprofile = (creatorAddress, creatorName) => {
+    this.setState({ profileAddress: creatorAddress })
+    this.setState({ profileName: creatorName })
+  }
+
+  onKeyDown = (keycode) => {
+    if (keycode.key === 'Enter') {
+      this.setState({ searchInput: document.getElementById("searchbar").value })
+    }
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -106,22 +117,18 @@ async loadBlockchainData() {
       images: {},
       loading: true,
       searchInput: '',
-    }
-  }
-
-  onKeyDown = (keycode) => {
-    if (keycode.key === 'Enter') {
-      this.setState({searchInput: document.getElementById("searchbar").value})
+      profileAddress: '',
+      profileName: '',
     }
   }
 
   render() {
-    console.log("Render")
     return (
       <div>
         <Navbar
           account={this.state.account}
           onKeyDown={this.onKeyDown}
+          loadprofile={this.loadprofile}
         />
         { this.state.loading
           ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
@@ -129,9 +136,12 @@ async loadBlockchainData() {
               creators={this.state.creators}
               creatorID={this.state.creatorID}
               images={this.state.images}
+              profileAddress={this.state.profileAddress}
+              profileName={this.state.profileName}
               captureFile={this.captureFile}
               uploadImage={this.uploadImage}
               setup={this.setup}
+              loadprofile={this.loadprofile}
             />
         }
       </div>
