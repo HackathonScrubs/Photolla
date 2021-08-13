@@ -37,12 +37,25 @@ async loadBlockchainData() {
   if(networkData) {
     const photolla = web3.eth.Contract(Photolla.abi, networkData.address)
     this.setState({ photolla: photolla })
-    const imagescount = await photolla.methods.imageCount().call()
-    this.setState({ imagescount })
-    for (var i = 1; i <= imagescount; i++) {
-      const image = await photolla.methods.images(i).call()
+    const creatorcount = await photolla.methods.creatorCount().call()
+    this.setState({ creatorcount })
+    const creatorID = await photolla.methods.creatorIDs(this.state.account).call()
+    this.setState({ creatorID: creatorID})
+    for (var i = 1; i <= creatorcount; i++) {
+      const creator = await photolla.methods.creators(i).call()
       this.setState({
-        images: [...this.state.images, image]
+        creators: [...this.state.creators, creator]
+      })
+      const images = []
+      if (creator.imageCount > 0) {
+        images = await photolla.methods.getImages(creator.creatorAddress).call()
+        console.log(images)
+      }
+      const creatorImages = this.state.images
+      creatorImages[creator.creatorAddress] = images
+      console.log(creatorImages)
+      this.setState({
+        images: creatorImages
       })
     }
     this.setState({ loading: false})
@@ -50,7 +63,7 @@ async loadBlockchainData() {
   else {
     window.alert('Photolla contract not deployed.')
   }
-  
+
 }
   captureFile = event => {
     event.preventDefault()
@@ -77,28 +90,49 @@ async loadBlockchainData() {
       })
     })
   }
+
+  setup = (name, bio) => {
+    const defaultProfile = new Identicon(this.state.account, 30).toString()
+    this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       account: '',
       photolla: null,
-      images: [],
-      loading: true
+      creatorID: 0,
+      creators: [],
+      images: {},
+      loading: true,
+      searchInput: '',
+    }
+  }
+
+  onKeyDown = (keycode) => {
+    if (keycode.key === 'Enter') {
+      this.setState({searchInput: document.getElementById("searchbar").value})
     }
   }
 
   render() {
+    console.log("Render")
     return (
       <div>
-        <Navbar account={this.state.account} />
+        <Navbar
+          account={this.state.account}
+          onKeyDown={this.onKeyDown}
+        />
         { this.state.loading
           ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
           : <Main
+              creators={this.state.creators}
+              creatorID={this.state.creatorID}
               images={this.state.images}
               captureFile={this.captureFile}
               uploadImage={this.uploadImage}
+              setup={this.setup}
             />
-          }
         }
       </div>
     );

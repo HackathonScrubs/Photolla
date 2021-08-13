@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import Identicon from 'identicon.js';
 import photo from '../photo.png'
+import logo from '../images/Logo.png'
+import search from '../images/search.png'
+import icon from '../images/CharmanderProfilePhoto.png'
 
 class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      /*<nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a
           className="navbar-brand col-sm-3 col-md-2 mr-0"
           target="_blank"
@@ -31,6 +34,22 @@ class Navbar extends Component {
             }
           </li>
         </ul>
+      </nav>*/
+      <nav>
+        <div className="nav-left">
+          <img src ={logo} className="logo"/>
+        </div>
+        <div className="nav-right"></div>
+          <div className="search-box">
+            <img src={search}/>
+            <input type="text" placeholder="Search" id="searchbar" onKeyDown={this.props.onKeyDown}/>
+          </div>
+          <div className="nav-right">
+            <small>{this.props.account}</small>
+          </div>
+          <div className="nav-user-icon online">
+            <img src={icon}/>
+          </div>
       </nav>
     );
   }
