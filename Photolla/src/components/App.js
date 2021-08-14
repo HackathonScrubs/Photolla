@@ -85,21 +85,39 @@ async loadBlockchainData() {
         console.error(error)
         return
       }
-      this.setState({ loading: true })
-     this.state.photolla.methods.uploadImage(result[0].hash, description).send({ from: this.state.account }).on('transactionHash', (hash) => { this.setState({ loading: false })
+     this.setState({ loading: true })
+     this.state.photolla.methods.uploadImage(result[0].hash, description).send({ from: this.state.account }).on('confirmation', (receipt) => {
+       window.location.reload()
+      }).on('error', (error) => {
+        this.setState({ transactionRejected: true })
+        window.location.reload()
       })
     })
   }
-
   setup = (name, bio) => {
     const defaultProfile = new Identicon(this.state.account, 30).toString()
-    this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account })
+    this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account }).on('confirmation', (receipt) => {
+      window.location.reload()
+     }).on('error', (error) => {
+       this.setState({ transactionRejected: true })
+       window.location.reload() })
   }
 
   loadprofile = (creatorAddress, creatorName) => {
     this.setState({ profileAddress: creatorAddress })
     this.setState({ profileName: creatorName })
   }
+
+  tipImageOwner = (creatorAddress, id, tipAmount) => {
+    this.setState({ loading: true })
+    this.state.photolla.methods.tipImageOwner(creatorAddress, id).send({ from: this.state.account, value: tipAmount }).on('confirmation', (receipt) => {
+      window.location.reload()
+     }).on('error', (error) => {
+       this.setState({ transactionRejected: true })
+       window.location.reload()
+    })
+  }
+
 
   onKeyDown = (keycode) => {
     if (keycode.key === 'Enter') {
@@ -130,19 +148,23 @@ async loadBlockchainData() {
           onKeyDown={this.onKeyDown}
           loadprofile={this.loadprofile}
         />
-        { this.state.loading
-          ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
-          : <Main
-              creators={this.state.creators}
-              creatorID={this.state.creatorID}
-              images={this.state.images}
-              profileAddress={this.state.profileAddress}
-              profileName={this.state.profileName}
-              captureFile={this.captureFile}
-              uploadImage={this.uploadImage}
-              setup={this.setup}
-              loadprofile={this.loadprofile}
-            />
+        { this.state.transactionRejected
+          ? <div className="text-center mt-5"><p>Transaction rejected...</p></div>
+          : this.state.loading
+            ? <div className="loader-wrapper"><img src="../logo.png" className="loader"></img></div>
+            : <Main
+                creators={this.state.creators}
+                creatorID={this.state.creatorID}
+                images={this.state.images}
+                tips={this.state.tipsAmount}
+                profileAddress={this.state.profileAddress}
+                profileName={this.state.profileName}
+                captureFile={this.captureFile}
+                uploadImage={this.uploadImage}
+                setup={this.setup}
+                tipImageOwner={this.tipImageOwner}
+                loadprofile={this.loadprofile}
+              />
         }
       </div>
     );

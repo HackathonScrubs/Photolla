@@ -99,19 +99,15 @@ which can be 'listening' for certain events and take action when they happen*/
     creators[creatorIDs[msg.sender]].profileHash = _imageHash;
   }
 
-  function tipImageOwner(address creatorAdd, uint imageID) public payable {
-	  //make sure the id is valid
-	  //require(_id > 0 && _id <= imageCount);
-	  //fetch the image
-	  Image memory _image = images[creatorAdd][imageID];
+  function tipImageOwner(address creatorAddress, uint imageID) public payable {
+	  Image memory _image = images[creatorAddress][imageID];
 	  address payable _author = _image.author;
 	  //pay the author by sending them ether
 	  address(_author).transfer(msg.value);
 	  //increment the tip amount
-	  _image.tipAmount = _image.tipAmount + msg.value;
 	  //update the image
-	  images[_image.author][_image.imageId] = _image;
-	  //trigger an event
+	  images[creatorAddress][imageID].tipAmount += msg.value;
+    	  //trigger an event
 	  emit ImageTipped(_image.imageId, _image.hash, _image.description, _image.tipAmount, _author);
   }
 }

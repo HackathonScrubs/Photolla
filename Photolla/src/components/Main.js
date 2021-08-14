@@ -66,6 +66,20 @@ class Main extends Component {
                                 <img src={`https://ipfs.infura.io/ipfs/${image.hash}`} style={{ maxWidth: '420px'}}/>
                               </p>
                             </li>
+                        <small className="float-left mt-1 text-muted">
+                          Endorsement: {window.web3.utils.fromWei(image.tipAmount.toString(), 'Ether')} ETH
+                        </small>
+                        <button
+                          className="btn btn-link btn-sm float-right pt-0"
+                          name={image.id}
+                          onClick={(event) => {
+                            let tipAmount = window.web3.utils.toWei('0.1', 'Ether')
+                            console.log(image.imageId)
+                            this.props.tipImageOwner(this.props.profileAddress, image.imageId - 1, tipAmount)
+                          }}
+                        >
+                          TIP 0.1 ETH
+                        </button>
                           </ul>
                         </div>
                       )
