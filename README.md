@@ -19,7 +19,7 @@ Our target audience includes:
 <img src="PhotollaDiagram.png">
 
 # Demo video
-[![Watch it here]<img src="PhotollaCoverPhoto.png">](https://www.youtube.com/watch?v=NRW7VBtnwss)
+[<img src="PhotollaCoverPhoto.png">](https://www.youtube.com/watch?v=NRW7VBtnwss)
 
 # Installation and startup
 Dependencies:
