@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Identicon from 'identicon.js';
 
 class Main extends Component {
 
@@ -19,7 +18,7 @@ class Main extends Component {
 							<br></br>
 							<img src="signup.png" className="icon"/>
 							<h2 className="login.text">Sign Up</h2>
-							<p>Start your journey as a creator</p>
+							<p className="setup">Start your journey as a creator</p>
 							<div className="sep"></div>
 							<br></br>
 							<div class="inputs">
@@ -45,13 +44,58 @@ class Main extends Component {
 			</div>
 		</body>
       );
-    } else if (this.props.profileAddress != '') {
-      console.log(this.props.profileAddress)
+    } else if (this.props.searchInput != '') {
+		return (
+			<div className="container-fluid mt-5">
+			  <div className="row">
+				<main role="main" className="col-lg-12 content-main">
+				  <div className="content">
+					<img className="icon" src="research.png"/>
+					  <h2 style={{ textAlign: 'center' }}>Results for "{this.props.searchInput}"</h2>
+					<p>&nbsp;</p>
+					{ this.props.creators.filter((creator) => {
+						return (creator.creatorName.toLowerCase().includes(this.props.searchInput.toLowerCase()) ||
+						creator.bio.toLowerCase().includes(this.props.searchInput.toLowerCase()))
+					}).map((creator, key) => {
+					return(
+						<div className="creator-main-box" key={key}>
+							<div id="inner-grid">
+								<div className="creator-main-name">
+									<a className="text-muted" href="#" onClick={() => this.props.loadprofile(creator.creatorAddress, creator.creatorName)}>{creator.creatorName}</a>
+								</div>
+								<div className="creator-main-image">
+									<ul id="imageList" className="list-group list-group-flush">
+										<li className="list-group-item">
+											<p className="text-center">
+											<img src=
+											{this.props.images[creator.creatorAddress].length === 0
+											? `data:image/png;base64,${creator.defaultProfile}`
+											: `https://ipfs.infura.io/ipfs/${this.props.images[creator.creatorAddress][this.props.images[creator.creatorAddress].length - 1]["hash"]}`
+											}
+											style={{ maxWidth: '250px'}}
+											/>
+											</p>
+										</li>
+									</ul>
+								</div>
+								<div className="creator-main-bio">
+									<p>{creator.bio}</p>
+								</div>
+							</div>
+						</div>
+						)})
+					}
+					</div>
+				</main>
+			  </div>
+			</div>
+		  );
+	} else if (this.props.profileAddress != '') {
       return (
         <div className="container-fluid mt-5">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '500px' }}>
-              <div className="content mr-auto ml-auto">
+            <main role="main" className="col-lg-12 content-main" style={{ maxWidth: '500px' }}>
+              <div className="content">
 				<img className="icon" src="writer.png"/>
                   <h2 style={{ textAlign: 'center' }}>{this.props.profileName}</h2>
                 <p>&nbsp;</p>
@@ -67,15 +111,16 @@ class Main extends Component {
                                 <img src={`https://ipfs.infura.io/ipfs/${image.hash}`} style={{ maxWidth: '420px'}}/>
                               </p>
                             </li>
-                        <small className="float-left mt-1 text-muted">
-                          Endorsement: {window.web3.utils.fromWei(image.tipAmount.toString(), 'Ether')} ETH
-                        </small>
+                        <div className="card-header tips">
+							<small className="text-muted">
+                          		Tips: {window.web3.utils.fromWei(image.tipAmount.toString(), 'Ether')} ETH
+	                        </small>
+						</div>
                         <button
-                          className="btn btn-link btn-sm float-right pt-0"
+                          className="btn btn-outline-primary tips"
                           name={image.id}
                           onClick={(event) => {
                             let tipAmount = window.web3.utils.toWei('0.1', 'Ether')
-                            console.log(image.imageId)
                             this.props.tipImageOwner(this.props.profileAddress, image.imageId - 1, tipAmount)
                           }}
                         >
@@ -121,7 +166,7 @@ class Main extends Component {
             	</div>
 			</div>
 			<div className="creator-header">
-				<div clasName="creator-header-box">
+				<div className="creator-header-box">
 					<img src="research.png" className="icon"/>
 					<h2>Discover Creators</h2>
 				</div>
@@ -155,7 +200,7 @@ class Main extends Component {
 						</div>
 					</div> )})}
 				</div>
-		</div>
+			</div>
 		  );
 		}
 	  }

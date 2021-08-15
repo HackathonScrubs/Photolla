@@ -62,6 +62,10 @@ https://www.tutorialspoint.com/solidity/solidity_events.htm
 Events are a way for your contract to communicate that something happened on the blockchain to your app front-end,
 which can be 'listening' for certain events and take action when they happen*/
 
+  function getImage(address creatorAddress, uint imageId) public returns (Image memory image) {
+    return images[creatorAddress][imageId];
+  }
+
   function getImages(address creatorAddress) public returns (Image[] memory creatorImages) {
     return images[creatorAddress];
   }

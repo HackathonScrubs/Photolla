@@ -4,7 +4,8 @@
 	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 body{
-	background: linear-gradient(to bottom right, #E1BEE7, #B2EBF2);
+	background-image: linear-gradient(to bottom right, #E1BEE7, #B2EBF2);
+	background-attachment: fixed;
 	height: 100vh;
 }
 nav{
@@ -157,6 +158,11 @@ small {
 	font-size: 12px;
 	text-align: right;
 }
+.tips {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-size: medium;
+	text-align: center;
+}
 div[id="creator-header"] {
 	text-align: center;
 }
@@ -195,8 +201,8 @@ div[id="creator-header"] {
 #signup {
 	padding: 0px 25px 25px;
     background: #fff;
-    box-shadow: 
-        0px 0px 0px 5px rgba( 255,255,255,0.4 ), 
+    box-shadow:
+        0px 0px 0px 5px rgba( 255,255,255,0.4 ),
         0px 4px 20px rgba( 0,0,0,0.33 );
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -241,7 +247,7 @@ input:-moz-placeholder {
 .inputs input[type=text]:focus {
     background: #fff;
     box-shadow: 0px 0px 0px 3px #fff38e, inset 0px 2px 3px rgba( 0,0,0,0.2 ), 0px 5px 5px rgba( 0,0,0,0.15 );
-    outline: none;   
+    outline: none;
 }
 .submit {
     width: 100%;
@@ -258,7 +264,7 @@ input:-moz-placeholder {
         #b9c5dd 0%,
         #a4b0cb);
     background: -webkit-gradient(
-        linear, left top, left bottom, 
+        linear, left top, left bottom,
         from(#b9c5dd),
         to(#a4b0cb));
     -moz-border-radius: 5px;
@@ -288,13 +294,13 @@ input:-moz-placeholder {
         #b9c5dd);
 }
 .creator-container {
-	width: 100vw;
+	width: 90vw;
 	height: 100vh;
-	
+
 	display: grid;
 
 	grid-template-columns: 5fr 2fr;
-	grid-template-rows: 1fr 6fr; 
+	grid-template-rows: 1fr 6fr;
 	gap: 20px;
 	grid-gap: 20px;
 }
@@ -325,11 +331,11 @@ input:-moz-placeholder {
 	align-items: center;
 }
 .creator-main-box {
-	margin-left: 120px;
+	margin: auto;
 	height: 300px;
 	background: #fff;
-    box-shadow: 
-        0px 0px 0px 5px rgba( 255,255,255,0.4 ), 
+    box-shadow:
+        0px 0px 0px 5px rgba( 255,255,255,0.4 ),
         0px 4px 20px rgba( 0,0,0,0.33 );
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -413,7 +419,7 @@ input:-moz-placeholder {
 #creator-upload .inputs input[type=text]:focus {
     background: #fff;
     box-shadow: 0px 0px 0px 3px #fff38e, inset 0px 2px 3px rgba( 0,0,0,0.2 ), 0px 5px 5px rgba( 0,0,0,0.15 );
-    outline: none;   
+    outline: none;
 }
 
 #creator-upload button {
@@ -421,8 +427,8 @@ input:-moz-placeholder {
 }
 .box {
 	background: #fff;
-    box-shadow: 
-        0px 0px 0px 5px rgba( 255,255,255,0.4 ), 
+    box-shadow:
+        0px 0px 0px 5px rgba( 255,255,255,0.4 ),
         0px 4px 20px rgba( 0,0,0,0.33 );
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -436,3 +442,14 @@ input:-moz-placeholder {
 	max-height: 250px;
 }
 
+.content-main {
+	margin: auto;
+}
+
+p {
+	margin-bottom: 0%;
+}
+
+.setup {
+	margin-bottom: 1rem;
+}

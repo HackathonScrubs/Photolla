@@ -1,4 +1,4 @@
-import React, { Component, useCallback } from 'react';
+import React, { Component } from 'react';
 import Web3 from 'web3';
 import Identicon from 'identicon.js';
 import './App.css';
@@ -35,7 +35,7 @@ async loadBlockchainData() {
   const networkId = await web3.eth.net.getId()
   const networkData = Photolla.networks[networkId]
   if(networkData) {
-    const photolla = web3.eth.Contract(Photolla.abi, networkData.address)
+    const photolla = new web3.eth.Contract(Photolla.abi, networkData.address)
     this.setState({ photolla: photolla })
     const creatorcount = await photolla.methods.creatorCount().call()
     this.setState({ creatorcount })
@@ -46,14 +46,12 @@ async loadBlockchainData() {
       this.setState({
         creators: [...this.state.creators, creator]
       })
-      const images = []
+      var images = []
       if (creator.imageCount > 0) {
         images = await photolla.methods.getImages(creator.creatorAddress).call()
-        console.log(images)
       }
       const creatorImages = this.state.images
       creatorImages[creator.creatorAddress] = images
-      console.log(creatorImages)
       this.setState({
         images: creatorImages
       })
@@ -73,20 +71,17 @@ async loadBlockchainData() {
 
     reader.onloadend = () => {
       this.setState({ buffer: Buffer(reader.result) })
-      console.log('buffer', this.state.buffer)
     }
   }
 
   uploadImage = description => {
-    console.log("Uploading file to ipfs...")
     ipfs.add(this.state.buffer, (error, result) => {
-      console.log('Ipfs result', result)
       if(error) {
         console.error(error)
         return
       }
      this.setState({ loading: true })
-     this.state.photolla.methods.uploadImage(result[0].hash, description).send({ from: this.state.account }).on('confirmation', (receipt) => {
+     this.state.photolla.methods.uploadImage(result[0].hash, description).send({ from: this.state.account }).on('receipt', (receipt) => {
        window.location.reload()
       }).on('error', (error) => {
         this.setState({ transactionRejected: true })
@@ -96,7 +91,7 @@ async loadBlockchainData() {
   }
   setup = (name, bio) => {
     const defaultProfile = new Identicon(this.state.account, 30).toString()
-    this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account }).on('confirmation', (receipt) => {
+    this.state.photolla.methods.newCreator(name, "", defaultProfile, bio).send({ from: this.state.account }).on('receipt', (receipt) => {
       window.location.reload()
      }).on('error', (error) => {
        this.setState({ transactionRejected: true })
@@ -106,18 +101,29 @@ async loadBlockchainData() {
   loadprofile = (creatorAddress, creatorName) => {
     this.setState({ profileAddress: creatorAddress })
     this.setState({ profileName: creatorName })
+    this.state.searchInput = ""
+    document.getElementById("searchbar").value = ""
+  }
+
+  async updateImage(creatorAddress, imageId) {
+    var imagesArr = [...this.state.images[creatorAddress]]
+    imagesArr[imageId] = await this.state.photolla.methods.getImage(creatorAddress, imageId).call()
+    var updatedImages = { ...this.state.images }
+    updatedImages[creatorAddress] = imagesArr
+    this.setState({ images: updatedImages})
   }
 
   tipImageOwner = (creatorAddress, id, tipAmount) => {
     this.setState({ loading: true })
-    this.state.photolla.methods.tipImageOwner(creatorAddress, id).send({ from: this.state.account, value: tipAmount }).on('confirmation', (receipt) => {
-      window.location.reload()
+    this.state.photolla.methods.tipImageOwner(creatorAddress, id).send({ from: this.state.account, value: tipAmount }).on('receipt', async (receipt) => {
+      await this.updateImage(creatorAddress, id)
+      this.setState({ loading: false })
+      this.setState({ profileAddress: creatorAddress })
      }).on('error', (error) => {
        this.setState({ transactionRejected: true })
        window.location.reload()
     })
   }
-
 
   onKeyDown = (keycode) => {
     if (keycode.key === 'Enter') {
@@ -157,6 +163,7 @@ async loadBlockchainData() {
                 creatorID={this.state.creatorID}
                 images={this.state.images}
                 tips={this.state.tipsAmount}
+                searchInput={this.state.searchInput}
                 profileAddress={this.state.profileAddress}
                 profileName={this.state.profileName}
                 captureFile={this.captureFile}
