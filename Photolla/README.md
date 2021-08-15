@@ -21,15 +21,6 @@ Our target audience includes:
 # Demo video
 [![Watch it here](https://img.youtube.com/vi//0.jpg)](https://www.youtube.com/watch?v=)
 
-# References
-* [Dappuniversity - Decentragram](https://www.youtube.com/watch?v=8rhueOcTu8k)
-* [React](https://reactjs.org/docs)
-* [Node.js](https://nodejs.org/en/docs/)
-* [Web3.js](https://web3js.readthedocs.io/en/v1.4.0/)
-* [Solidity](https://docs.soliditylang.org/en/v0.8.7/)
-* [IPFS](https://docs.ipfs.io/)
-* [Truffle](https://www.trufflesuite.com/docs)
-
 # Installation and startup
 Dependencies:
 * [Node.js](https://nodejs.org/en/download/)
@@ -61,3 +52,12 @@ npm run start
 * [Yee Jin](https://github.com/yeejinang)<br>
 * [Jian Kai]()<br>
 * [Yun Zhe](https://github.com/hooyunzhe)
+
+# References
+* [Dappuniversity - Decentragram](https://www.youtube.com/watch?v=8rhueOcTu8k)
+* [React](https://reactjs.org/docs)
+* [Node.js](https://nodejs.org/en/docs/)
+* [Web3.js](https://web3js.readthedocs.io/en/v1.4.0/)
+* [Solidity](https://docs.soliditylang.org/en/v0.8.7/)
+* [IPFS](https://docs.ipfs.io/)
+* [Truffle](https://www.trufflesuite.com/docs)
