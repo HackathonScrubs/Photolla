@@ -8,6 +8,9 @@ Our target audience includes:
 * Designer💻
 * Fans/Supporters🎉
 
+This project was built during the [HackFS](https://hackfs.com/) 2021 hackathon.<br>
+Here's our [Showcase](https://showcase.ethglobal.co/hackfs2021/photolla).
+
 # How it's built
 * React <img src="https://cdn.iconscout.com/icon/free/png-16/react-1-282599.png"><br>
 * Node.js <img src="https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_f0b606abb6d19089febc9faeeba5bc05/nodejs-development-services.png" width="16"><br>
