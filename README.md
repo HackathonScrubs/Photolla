@@ -50,7 +50,7 @@ npm run start
 ```
 
 # Contributors
-* [Ding Hang](https://github.com/Hanswong42)<br>
+* [Ding Hang](https://github.com/HansWongDH)<br>
 * [Eu Lee](https://github.com/lokeulee)<br>
 * [Yee Jin](https://github.com/yeejinang)<br>
 * [Jian Kai]()<br>
