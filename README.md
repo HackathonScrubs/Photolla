@@ -9,6 +9,7 @@ Our target audience includes:
 * Fans/Supporters🎉
 
 This project was built during the [HackFS](https://hackfs.com/) 2021 hackathon.<br>
+Here's our [Presentation](https://github.com/HackathonScrubs/Photolla/blob/main/PhotollaPresentation.pdf). </br>
 Here's our [Showcase](https://ethglobal.com/showcase/photolla-3j1po).
 
 # How it's built
